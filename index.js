@@ -1,28 +1,45 @@
 "use strict";
+const histria_utils_1 = require("histria-utils");
+var _databases = {};
 class MemoryStorage {
     constructor(options) {
         let that = this;
         that._options = options || {};
     }
     findOne(entityName, filter, options) {
-        return Promise.resolve(null);
+        let that = this;
+        let res = null;
+        if (that._data[entityName]) {
+            const list = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true });
+            if (list && list.length)
+                res = list[0];
+        }
+        return Promise.resolve(res);
     }
     find(entityName, filter, options) {
-        return Promise.resolve([]);
-    }
-    initNameSpace(nameSpace, model, data) {
         let that = this;
-        let ns = that._nameSpaces[nameSpace] = that._nameSpaces[nameSpace] || {};
-        Object.keys(model).forEach((name) => {
-            let entity = model[name];
+        let res = [];
+        if (that._data[entityName])
+            res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true }) || [];
+        return Promise.resolve(res);
+    }
+    initNameSpace(nameSpace, data) {
+        let that = this;
+        let sm = histria_utils_1.schemaManager();
+        let d = that._data = that._data;
+        sm.enumSchemas(nameSpace, entity => {
             if (that._options.storeChildrenInParent && entity.meta.parent) {
-                return;
             }
-            else {
-                ns[name] = ns[name] || { data: [] };
-                ns[name].data = data;
-            }
+            else
+                d[entity.name] = data;
         });
         return Promise.resolve();
     }
 }
+function store(namespace, options) {
+    if (!_databases[namespace]) {
+        _databases[namespace] = new MemoryStorage(options);
+    }
+    return _databases[namespace];
+}
+exports.store = store;
