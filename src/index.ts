@@ -36,7 +36,7 @@ class MemoryStorage implements IStore {
         let sm = schemaManager();
         let d = that._data = that._data
         sm.enumSchemas(nameSpace, entity => {
-            if (that._options.storeChildrenInParent && entity.meta.parent) {
+            if (that._options.compositionsInParent && entity.meta.parent) {
             } else
                 d[entity.name] = data;
         });
