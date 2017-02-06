@@ -13,7 +13,7 @@ class MemoryStorage implements IStore {
         let that = this;
         that._options = options || {};
     }
-    public findOne(entityName: string, filter: any, options: any): Promise<any> {
+    public findOne(entityName: string, filter: any, options?: { compositions: boolean}): Promise<any> {
         let that = this;
         let res = null;
         if (that._data[entityName]) {
@@ -23,7 +23,8 @@ class MemoryStorage implements IStore {
         }
         return Promise.resolve(res);
     }
-    public find(entityName: string, filter: any, options: any): Promise<any[]> {
+    
+    public find(entityName: string, filter: any, options?: { compositions: boolean}): Promise<any[]> {
         let that = this;
         let res = [];
         if (that._data[entityName])
