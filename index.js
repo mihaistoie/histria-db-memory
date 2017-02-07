@@ -26,12 +26,14 @@ class MemoryStorage {
     initNameSpace(nameSpace, data) {
         let that = this;
         let sm = histria_utils_1.schemaManager();
-        let d = that._data = that._data;
+        let d = that._data = that._data || {};
         sm.enumSchemas(nameSpace, entity => {
-            if (that._options.compositionsInParent && entity.meta.parent) {
+            if (data[entity.name]) {
+                if (that._options.compositionsInParent && entity.meta.parent) {
+                }
+                else
+                    d[entity.name] = data[entity.name];
             }
-            else
-                d[entity.name] = data;
         });
         return Promise.resolve();
     }

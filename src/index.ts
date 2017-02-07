@@ -13,7 +13,7 @@ class MemoryStorage implements IStore {
         let that = this;
         that._options = options || {};
     }
-    public findOne(entityName: string, filter: any, options?: { compositions: boolean}): Promise<any> {
+    public findOne(entityName: string, filter: any, options?: { compositions: boolean }): Promise<any> {
         let that = this;
         let res = null;
         if (that._data[entityName]) {
@@ -23,8 +23,8 @@ class MemoryStorage implements IStore {
         }
         return Promise.resolve(res);
     }
-    
-    public find(entityName: string, filter: any, options?: { compositions: boolean}): Promise<any[]> {
+
+    public find(entityName: string, filter: any, options?: { compositions: boolean }): Promise<any[]> {
         let that = this;
         let res = [];
         if (that._data[entityName])
@@ -34,11 +34,13 @@ class MemoryStorage implements IStore {
     public initNameSpace(nameSpace: string, data: any): Promise<void> {
         let that = this;
         let sm = schemaManager();
-        let d = that._data = that._data
+        let d = that._data = that._data || {};
         sm.enumSchemas(nameSpace, entity => {
-            if (that._options.compositionsInParent && entity.meta.parent) {
-            } else
-                d[entity.name] = data;
+            if (data[entity.name]) {
+                if (that._options.compositionsInParent && entity.meta.parent) {
+                } else
+                    d[entity.name] = data[entity.name];
+            }
         });
         return Promise.resolve();
     }
