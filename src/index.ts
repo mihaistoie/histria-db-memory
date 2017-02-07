@@ -16,11 +16,8 @@ class MemoryStorage implements IStore {
     public findOne(entityName: string, filter: any, options?: { compositions: boolean }): Promise<any> {
         let that = this;
         let res = null;
-        if (that._data[entityName]) {
-            const list = findInArray(filter, that._data[entityName], { findFirst: true });
-            if (list && list.length)
-                res = list[0];
-        }
+        if (that._data[entityName]) 
+            res = findInArray(filter, that._data[entityName], { findFirst: true });
         return Promise.resolve(res);
     }
 
@@ -28,8 +25,8 @@ class MemoryStorage implements IStore {
         let that = this;
         let res = [];
         if (that._data[entityName])
-            res = findInArray(filter, that._data[entityName], { findFirst: true }) || [];
-        return Promise.resolve(res);
+            res = findInArray(filter, that._data[entityName], { findFirst: false }) || [];
+        return Promise.resolve(res || []);
     }
     public initNameSpace(nameSpace: string, data: any): Promise<void> {
         let that = this;

@@ -9,19 +9,16 @@ class MemoryStorage {
     findOne(entityName, filter, options) {
         let that = this;
         let res = null;
-        if (that._data[entityName]) {
-            const list = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true });
-            if (list && list.length)
-                res = list[0];
-        }
+        if (that._data[entityName])
+            res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true });
         return Promise.resolve(res);
     }
     find(entityName, filter, options) {
         let that = this;
         let res = [];
         if (that._data[entityName])
-            res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true }) || [];
-        return Promise.resolve(res);
+            res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: false }) || [];
+        return Promise.resolve(res || []);
     }
     initNameSpace(nameSpace, data) {
         let that = this;
