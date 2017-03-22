@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const histria_utils_1 = require("histria-utils");
-var _databases = {};
+const _databases = {};
 class MemoryStorage {
     constructor(options) {
         let that = this;

@@ -2,7 +2,7 @@ import { IStore, schemaManager, findInArray } from 'histria-utils'
 
 
 
-var _databases: any = {
+const _databases: any = {
 
 }
 
@@ -16,7 +16,7 @@ class MemoryStorage implements IStore {
     public findOne(entityName: string, filter: any, options?: { compositions: boolean }): Promise<any> {
         let that = this;
         let res = null;
-        if (that._data[entityName]) 
+        if (that._data[entityName])
             res = findInArray(filter, that._data[entityName], { findFirst: true });
         return Promise.resolve(res);
     }
