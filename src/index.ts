@@ -14,19 +14,24 @@ class MemoryStorage implements IStore {
         that._options = options || {};
     }
     public findOne(entityName: string, filter: any, options?: { compositions: boolean }): Promise<any> {
-        let that = this;
-        let res = null;
+        const that = this;
+        let res: any = null;
         if (that._data[entityName])
             res = findInArray(filter, that._data[entityName], { findFirst: true });
-        return Promise.resolve(res);
+        return new Promise<any>((resolve, reject) => {
+            process.nextTick(() => resolve(res))
+        });
     }
 
     public find(entityName: string, filter: any, options?: { compositions: boolean }): Promise<any[]> {
         let that = this;
-        let res = [];
+        let res: any[] = [];
         if (that._data[entityName])
             res = findInArray(filter, that._data[entityName], { findFirst: false }) || [];
-        return Promise.resolve(res || []);
+        return new Promise<any[]>((resolve, reject) => {
+            process.nextTick(() => resolve(res))
+        });
+
     }
     public initNameSpace(nameSpace: string, data: any): Promise<void> {
         let that = this;
@@ -39,7 +44,9 @@ class MemoryStorage implements IStore {
                     d[entity.name] = data[entity.name];
             }
         });
-        return Promise.resolve();
+        return new Promise<void>((resolve, reject) => {
+            process.nextTick(() => resolve())
+        });
     }
 }
 

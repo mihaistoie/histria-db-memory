@@ -8,18 +8,22 @@ class MemoryStorage {
         that._options = options || {};
     }
     findOne(entityName, filter, options) {
-        let that = this;
+        const that = this;
         let res = null;
         if (that._data[entityName])
             res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true });
-        return Promise.resolve(res);
+        return new Promise((resolve, reject) => {
+            process.nextTick(() => resolve(res));
+        });
     }
     find(entityName, filter, options) {
         let that = this;
         let res = [];
         if (that._data[entityName])
             res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: false }) || [];
-        return Promise.resolve(res || []);
+        return new Promise((resolve, reject) => {
+            process.nextTick(() => resolve(res));
+        });
     }
     initNameSpace(nameSpace, data) {
         let that = this;
@@ -33,7 +37,9 @@ class MemoryStorage {
                     d[entity.name] = data[entity.name];
             }
         });
-        return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            process.nextTick(() => resolve());
+        });
     }
 }
 function store(namespace, options) {
