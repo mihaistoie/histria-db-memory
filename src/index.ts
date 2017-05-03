@@ -1,4 +1,4 @@
-import { IStore, schemaManager, findInArray } from 'histria-utils'
+import { IStore, schemaManager, findInArray, helper } from 'histria-utils'
 
 
 
@@ -19,7 +19,7 @@ class MemoryStorage implements IStore {
         if (that._data[entityName])
             res = findInArray(filter, that._data[entityName], { findFirst: true });
         return new Promise<any>((resolve, reject) => {
-            process.nextTick(() => resolve(res))
+            process.nextTick(() => resolve(helper.clone(res)))
         });
     }
 
@@ -29,7 +29,7 @@ class MemoryStorage implements IStore {
         if (that._data[entityName])
             res = findInArray(filter, that._data[entityName], { findFirst: false }) || [];
         return new Promise<any[]>((resolve, reject) => {
-            process.nextTick(() => resolve(res))
+            process.nextTick(() => resolve(helper.clone(res)))
         });
 
     }

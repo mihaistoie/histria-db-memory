@@ -13,7 +13,7 @@ class MemoryStorage {
         if (that._data[entityName])
             res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: true });
         return new Promise((resolve, reject) => {
-            process.nextTick(() => resolve(res));
+            process.nextTick(() => resolve(histria_utils_1.helper.clone(res)));
         });
     }
     find(entityName, filter, options) {
@@ -22,7 +22,7 @@ class MemoryStorage {
         if (that._data[entityName])
             res = histria_utils_1.findInArray(filter, that._data[entityName], { findFirst: false }) || [];
         return new Promise((resolve, reject) => {
-            process.nextTick(() => resolve(res));
+            process.nextTick(() => resolve(histria_utils_1.helper.clone(res)));
         });
     }
     initNameSpace(nameSpace, data) {
