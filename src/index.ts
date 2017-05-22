@@ -48,6 +48,10 @@ class MemoryStorage implements IStore {
             process.nextTick(() => resolve())
         });
     }
+    public save(dat: any): Promise<any> {
+        const that = this;
+        return Promise.resolve();
+    }
 }
 
 export function store(namespace: string, options: any): IStore {

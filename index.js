@@ -41,6 +41,10 @@ class MemoryStorage {
             process.nextTick(() => resolve());
         });
     }
+    save(dat) {
+        const that = this;
+        return Promise.resolve();
+    }
 }
 function store(namespace, options) {
     if (!_databases[namespace]) {
